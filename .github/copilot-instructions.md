@@ -1,3 +1,68 @@
+## Jenkins Execution
+
+The system must trigger the Jenkins job after all conditions are satisfied.
+
+---
+
+### Execution Conditions
+
+Trigger ONLY IF:
+
+1. intent = ModelDiff_PR
+2. a `{area}` and `{number}` validation has PASSED
+3. PR URL is fully constructed and valid
+4. NO confirmation is required if all validations pass
+
+---
+
+### Execution Action
+
+Trigger Jenkins job by calling MCP tool `jenkins` with:
+
+Job Name:
+- ModelDiff_PR
+
+Parameters:
+- PR = <full URL>
+- email = <resolved email if available>
+
+Execution:
+
+trigger_build(
+  job="ModelDiff_PR",
+  parameters={
+    "PR": "https://cc.net/swh/ddad-domains-energy/pull/102",
+    "email": "user@test.com"
+  }
+)
+
+---
+
+### Email Resolution Rules
+
+The system must determine the email parameter as follows:
+
+1. If the user input contains an email:
+   - Use the provided email
+
+2. If no email is provided in the user input:
+   - Look for a default email in:
+     `scripts/email.txt`
+   - Use the email from the file
+
+3. If no email is found in both input and file:
+   - Execute without email
+
+---
+
+### Email Priority
+
+1. User-provided email (highest priority)
+2. Email from `scripts/email.txt`
+3. No email (fallback)
+
+---
+
 ## Branch Input Flexibility
 
 Users may provide input in multiple formats:
@@ -9,15 +74,15 @@ Users may provide input in multiple formats:
 
 ---
 
-## Input Normalization
+## Branch Input Standardize
 
-All inputs MUST be normalized to:
+All inputs MUST be standardized to:
 
-domain-{area}-{number}
+{area}-{number}
 
 ---
 
-## Input Validation
+## Branch Input Validation
 
 - Input MUST contain exactly one `{area}` and one `{number}`
 - If no valid pattern is detected:
@@ -50,13 +115,14 @@ domain-{area}-{number}
   - STOP processing immediately
 
 ---
+
 ## Domain Area Validation
 
 The `{area}` component must be validated before execution.
 
 ---
 
-### Domain Source
+### Domain Area Source
 
 - Allowed areas are defined in:
   `scripts/domain.txt`
@@ -72,10 +138,10 @@ driving
 
 ---
 
-### Validation Rules
+### Domain Area Validation Rules
 
 1. If `scripts/domain.txt` exists:
-   - If `{area}` matches a value → continue
+   - If `{area}` matches a value → continue to create PR
    - If `{area}` does NOT match:
     - Call `suggest_area` skill
       - If a HIGH-confidence match exists:
@@ -98,61 +164,6 @@ driving
 
 - Validation MUST occur AFTER normalization
 - Validation MUST occur BEFORE Jenkins execution
-
----
-
-## Jenkins Execution
-
-The system must trigger the Jenkins job after all conditions are satisfied.
-
----
-
-### Execution Conditions
-
-Trigger ONLY IF:
-
-1. intent = ModelDiff_PR
-2. a `{area}` and `{number}` validation has PASSED
-3. PR URL is fully constructed and valid
-4. NO confirmation is required if all validations pass
-
----
-
-### Email Resolution Rules
-
-The system must determine the email parameter as follows:
-
-1. If the user input contains an email:
-   - Use the provided email
-
-2. If no email is provided in the user input:
-   - Look for a default email in:
-     `scripts/email.txt`
-   - Use the email from the file
-
-3. If no email is found in both input and file:
-   - Execute without email
-
----
-
-### Email Priority
-
-1. User-provided email (highest priority)
-2. Email from `scripts/email.txt`
-3. No email (fallback)
-
----
-
-### Execution Action
-
-Trigger Jenkins job by calling MCP tool `jenkins` with:
-
-Job Name:
-- ModelDiff_PR
-
-Parameters:
-- PR = <full URL>
-- email = <resolved email if available>
 
 ---
 

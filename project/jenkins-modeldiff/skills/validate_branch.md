@@ -7,14 +7,12 @@ Validate branch format and structure.
 
 ## Required Pattern
 
-domain-{area}-{number}
+{area}-{number}
 
 ---
 
 ## Rules
 
-- starts with "domain-"
-- has exactly 3 parts
 - area must be letters only
 - number must be digits only
 
@@ -34,5 +32,5 @@ domain-{area}-{number}
 
 ## Output
 
-- valid = true/false
-- reason if invalid
+- If valid, continue to create pr link
+- if invalid, Stop processing and provide reason

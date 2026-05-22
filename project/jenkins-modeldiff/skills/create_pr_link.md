@@ -7,7 +7,7 @@ Convert branch to Jenkins URL.
 
 ## Input
 
-domain-{area}-{number}
+{area}-{number}
 
 ---
 

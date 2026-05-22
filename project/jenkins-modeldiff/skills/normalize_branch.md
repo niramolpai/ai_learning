@@ -1,7 +1,8 @@
-# Skill: Normalize Branch
+# Skill: Stanadardize Branch
 
 ## Purpose
 Normalize and standardize branch input.
+into format {area}-{number}
 
 ---
 
@@ -14,44 +15,23 @@ Normalize and standardize branch input.
 
 ---
 
-## Normalization Rules
-
-1. Fix typos:
-   - domian → domain
-   - doamin → domain
-   - damain → domain
-   - doman → domain
-
-2. Normalize separators:
-   - `_`, `.`, space → `-`
-
-3. Convert to lowercase
-
----
-
 ## Domain Prefix Handling
 
-- If input is in format:
-  {area}-{number}
+- If input is in format domain-{area}-{number}
+  Automatically convert to {area}-{number}
 
-- Automatically convert to:
-  domain-{area}-{number}
-
-- If input matches pattern:
-  {area}{number}
-
-- Split into:
-  {area}-{number}
+- If input matches pattern {area}{number}
+  Automatically convert to {area}-{number}
 
 ---
 
 ## Examples
 
 energy120 → energy-120 ✅ 
-powertrain-999 → domain-powertrain-999 ✅  
+powertrain-999 → powertrain-999 ✅  
 
 ---
 
 ## Output
 
-normalized_branch
+standardize branch in format {area}-{number}
